@@ -1,0 +1,67 @@
+#+TITLE: deepnetni-emacs-env layer
+# Document tags are separated with "|" char
+# The example below contains 2 tags: "layer" and "web service"
+# Avaliable tags are listed in <spacemacs_root>/.ci/spacedoc-cfg.edn
+# under ":spacetools.spacedoc.config/valid-tags" section.
+#+TAGS: layer|web service
+
+# The maximum height of the logo should be 200 pixels.
+[[img/deepnetni-emacs-env.png]]
+
+# TOC links should be GitHub style anchors.
+* Table of Contents                                        :TOC_4_gh:noexport:
+- [[#description][Description]]
+  - [[#features][Features:]]
+- [[#install][Install]]
+- [[#key-bindings][Key bindings]]
+
+* Description
+This layer adds support for something.
+
+** Features:
+  - Autocomplete
+  - Lint
+  - Refactor
+  - ...
+
+* Install
+To use this configuration layer, add it to your =~/.spacemacs=. You will need to
+add =deepnetni-emacs-env= to the existing =dotspacemacs-configuration-layers= list in this
+file.
+
+* Key bindings
+
+| Key Binding | Description    |
+|-------------+----------------|
+| ~SPC x x x~ | Does thing01   |
+
+# Use GitHub URLs if you wish to link a Spacemacs documentation file or its heading.
+# Examples:
+# [[https://github.com/syl20bnr/spacemacs/blob/master/doc/VIMUSERS.org#sessions]]
+# [[https://github.com/syl20bnr/spacemacs/blob/master/layers/%2Bfun/emoji/README.org][Link to Emoji layer README.org]]
+# If space-doc-mode is enabled, Spacemacs will open a local copy of the linked file.
+
+;; change highlight, switch to highlight line first, and then
+;; run command describe-face to check color configures and custom it
+;; here, i change layz-highlight to isearch and modify obsidian-theme.el
+;; '(hl-line ((t (:background "#202020"))))
+
+;; setq is only works for local variables while seq-default works for global variables.
+
+;; choose themes at https://themegallery.robdor.com/
+;; and https://emacsthemes.com/popular/index.html
+
+;; auto-mode-alist defined the major mode of files
+
+;; use find-fucntion, variable to search emacs codes
+;; use info to search basic information about emacs
+
+; (cons 1 2) -> (1 . 2) corresponding to (car part . cdr part) use car get 1, cdr get 2
+
+; (+ 2 2) equals to (apply '+ '(2 2)) or (funcall '+ 2 2)
+
+; variables in config.el can be configured in init.el with :variables keywords
+
+; use profile-start profile-report to check cpu propagation
+; emacs --timed-requires --profile and switch to load-time buffer
+;to check loading time when startup
