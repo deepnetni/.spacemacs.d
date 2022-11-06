@@ -32,13 +32,10 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(markdown
+   '(
      windows-scripts
      ;vim-powerline
      systemd
-     ;; javascript
-     ;; need do `pip install python-language-server'
-     ;(python :variables python-backend 'lsp)
      ;; use anaconda as python's backend
      (python :variables python-backend 'anaconda)
      ;; ----------------------------------------------------------------
@@ -51,8 +48,6 @@ This function should only modify configuration layer settings."
      better-defaults
      emacs-lisp
      (git :variables git-magit-status-fullscreen t)
-     ;(lsp :variables lsp-modeline-code-actions-enable nil)
-     ;; markdown
      ;; multiple-cursors
      ;; org
      ;; (shell :variables
@@ -60,8 +55,8 @@ This function should only modify configuration layer settings."
      ;;        shell-default-position 'bottom
      ;;        shell-default-shell 'eshell)
      themes-megapack
-     c-c++
      cmake
+     c-c++
      ;(c-c++ :variables
      ;       c-c++-adopt-subprojects t
      ;       c-c++-backend 'lsp-ccls
@@ -91,8 +86,8 @@ This function should only modify configuration layer settings."
    dotspacemacs-frozen-packages '()
 
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(tern
-                                    vi-tilde-fringe)
+   dotspacemacs-excluded-packages '(tern journalctl-mode vi-tilde-fringe darkburn-theme
+                                         farmhouse-theme)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and deletes any unused
@@ -100,7 +95,7 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-only))
+   dotspacemacs-install-packages 'used-but-keep-unused))
 
 (defun dotspacemacs/init ()
   "Initialization:
@@ -259,8 +254,9 @@ It should only modify the values of Spacemacs settings."
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
-                         sanityinc-tomorrow-blue
                          obsidian
+                         spacemacs-dark
+                         sanityinc-tomorrow-blue
                          zenburn
                          sanityinc-tomorrow-night
                          noctilux
@@ -277,7 +273,7 @@ It should only modify the values of Spacemacs settings."
    ;dotspacemacs-mode-line-theme '(vim-powerline)
    ;dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.0)
    ;; download fonts at https://github.com/domtronn/all-the-icons.el
-   dotspacemacs-mode-line-theme '(all-the-icons :separator arrow :separator-scale 1.5)
+   dotspacemacs-mode-line-theme '(all-the-icons :separator arrow :separator-scale 1.7)
 
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
    ;; (default t)
@@ -289,8 +285,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-default-font '("InputMono"
                                :size 14.0
                                :weight bold
-                               :width normal
-                               :powerline-scale 2.0)
+                               :width normal)
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -578,7 +573,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 ;; master branch use configuration-layer--elpa-archives
 ;; while develop branch use configuration-layer-elpa-archives
   (setq configuration-layer-elpa-archives
-    '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+    '(("melpa" . "https://melpa.org/packages/")
+      ;("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
       ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
       ("nongnu" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/")))
 
@@ -586,14 +582,11 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   (eval-after-load 'company
     '(add-to-list 'company-backends '(company-irony company-yasnippet)))
   ;(add-hook 'c-mode-hook 'irony-mode)
-  ;(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
   (add-hook 'dired-mode-hook 'auto-revert-mode)
   (defalias 'which-key-declare-prefixes 'ignore)
   (defalias 'which-key-declare-prefixes-for-mode 'ignore)
   (setq tramp-ssh-controlmaster-options
     "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
-  ;; init auto-dim-other-buffers
-  ;(add-hook 'after-init-hook (lambda () (auto-dim-other-buffers-mode t)))
 )
 
 
@@ -643,6 +636,8 @@ before packages are loaded."
   ;; the cursor always remains in the centere of the file when set
   (global-centered-cursor-mode -1)
   (custom-set-faces '(evil-ex-lazy-highlight ((t (:inherit isearch)))))
+  ;                  '(mode-line ((t (:background "#003f8e" :foreground "#ffffff" :box (:line-width (1 . 1) :color "#003f8e") :weight bold :family "InputMono"))))
+  ;                  '(mode-line-inactive ((t (:background "#003f8e" :foreground "#ffffff" :box (:line-width (1 . 1) :color "#003f8e") :weight bold :family "InputMono")))))
 
   (deepnetni-mode t)
   (remove-hook 'python-mode-hook 'importmagic-mode)
