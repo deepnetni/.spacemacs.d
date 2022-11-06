@@ -67,6 +67,7 @@
             (with-eval-after-load 'spaceline-all-the-icons
               (spaceline-toggle-all-the-icons-buffer-size-off)
               (spaceline-toggle-all-the-icons-flycheck-status-off)
+              (spaceline-toggle-all-the-icons-mode-icon-off)
               (spaceline-toggle-all-the-icons-position-off))
             (global-undo-tree-mode 1)
             ;; configure coding system to support Chinese characters
