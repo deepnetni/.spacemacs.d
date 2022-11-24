@@ -24,16 +24,24 @@
 
 (define-key global-map (kbd "C-k") nil)
 
+;; ============================== counsel ==============================
+;(define-key c-mode-map (kbd "C-c C-c") 'counsel-ag)
+(define-key global-map (kbd "C-c C-r") 'counsel-etags-recent-tag)
+
 ;; ============================== python ==============================
 ;(define-key python-mode-map (kbd "C-j") 'helm-resume)
 
-
 ;; ============================== eyebrowse ==============================
 (define-key global-map (kbd "C-`") 'eyebrowse-last-window-config)
+(define-key global-map (kbd "C-1") 'eyebrowse-switch-to-window-config-1)
+(define-key global-map (kbd "C-2") 'eyebrowse-switch-to-window-config-2)
+(define-key global-map (kbd "C-3") 'eyebrowse-switch-to-window-config-3)
+(define-key global-map (kbd "C-4") 'eyebrowse-switch-to-window-config-4)
+(define-key global-map (kbd "C-5") 'eyebrowse-switch-to-window-config-5)
 
 ;; ============================== evil ==============================
 
-;(define-key evil-motion-state-map (kbd "b") 'backward-word)
+(define-key evil-motion-state-map (kbd "C-b") 'backward-word)
 ;(define-key evil-motion-state-map (kbd "w") 'forward-word)
 (define-key evil-motion-state-map (kbd "M-u") 'evil-window-top)
 (define-key evil-motion-state-map (kbd "M-n") 'evil-window-bottom)
@@ -51,8 +59,9 @@
 (define-key evil-normal-state-map (kbd "C-k") 'evil-ex-nohighlight)
 (define-key evil-motion-state-map (kbd "C-e") 'evil-end-of-line)
 (define-key evil-motion-state-map (kbd "C-b") 'evil-first-non-blank)
-(define-key evil-motion-state-map (kbd "H") 'evil-first-non-blank)
-(define-key evil-motion-state-map (kbd "L") 'evil-end-of-line)
+;(define-key evil-motion-state-map (kbd "H") 'evil-first-non-blank)
+;(define-key evil-motion-state-map (kbd "L") 'evil-end-of-line)
+(define-key evil-motion-state-map (kbd "C-<tab>") 'powershell)
 
 (define-key global-map (kbd "C-h C-f") 'find-function)
 (define-key global-map (kbd "C-h C-v") 'find-variable)
@@ -73,8 +82,8 @@
 (define-key evil-normal-state-map (kbd "C-.") 'evil-window-increase-width)
 (define-key evil-normal-state-map (kbd "C-,") 'evil-window-decrease-width)
 (define-key evil-normal-state-map (kbd "C-w g") 'spacemacs/toggle-golden-ratio)
-(define-key evil-normal-state-map (kbd "M-h") 'evil-window-left)
 (define-key evil-normal-state-map (kbd "C-w C-h") 'evil-window-left)
+(define-key evil-normal-state-map (kbd "M-h") 'evil-window-left)
 (define-key evil-normal-state-map (kbd "M-l") 'evil-window-right)
 (define-key evil-normal-state-map (kbd "M-j") 'evil-window-down)
 (define-key evil-normal-state-map (kbd "M-k") 'evil-window-up)

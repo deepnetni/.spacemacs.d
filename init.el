@@ -32,10 +32,11 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(
+   '(markdown
      windows-scripts
      ;vim-powerline
      systemd
+     (conda :variables conda-anaconda-home "C:\\Users\\niye\\.conda\\")
      ;; use anaconda as python's backend
      (python :variables python-backend 'anaconda)
      ;; ----------------------------------------------------------------
@@ -50,10 +51,12 @@ This function should only modify configuration layer settings."
      (git :variables git-magit-status-fullscreen t)
      ;; multiple-cursors
      ;; org
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom
-     ;;        shell-default-shell 'eshell)
+     (shell :variables
+            shell-default-height 30
+            shell-default-position 'bottom
+            shell-default-shell (if (eq window-system 'w32)
+                                    'shell
+                                  'ansi-term))
      themes-megapack
      cmake
      c-c++
@@ -64,12 +67,11 @@ This function should only modify configuration layer settings."
      ;spell-checking
      ;syntax-checking
      (spacemacs-layouts :variables layouts-enable-autosave t
-                        layouts-autosave-delay 300)
+                        layouts-autosave-delay 600)
      ;; version-control
      ;; chinese
      (treemacs :variables treemacs-use-filewatch-mode t)
-     deepnetni-emacs-env
-     )
+     deepnetni-emacs-env)
 
 
    ;; List of additional packages that will be installed without being wrapped
@@ -636,8 +638,6 @@ before packages are loaded."
   ;; the cursor always remains in the centere of the file when set
   (global-centered-cursor-mode -1)
   (custom-set-faces '(evil-ex-lazy-highlight ((t (:inherit isearch)))))
-  ;                  '(mode-line ((t (:background "#003f8e" :foreground "#ffffff" :box (:line-width (1 . 1) :color "#003f8e") :weight bold :family "InputMono"))))
-  ;                  '(mode-line-inactive ((t (:background "#003f8e" :foreground "#ffffff" :box (:line-width (1 . 1) :color "#003f8e") :weight bold :family "InputMono")))))
 
   (deepnetni-mode t)
   (remove-hook 'python-mode-hook 'importmagic-mode)
