@@ -31,7 +31,7 @@
 
 (add-hook 'python-mode-hook
           (lambda ()
-            (define-key python-mode-map (kbd "M-e") 'spacemacs/python-execute-file)
+            (define-key python-mode-map (kbd "M-n") 'spacemacs/python-execute-file)
             (define-key python-mode-map (kbd "C-j") 'helm-resume)))
 
 (setq deepnetni-emacs-env--goto-center-hook

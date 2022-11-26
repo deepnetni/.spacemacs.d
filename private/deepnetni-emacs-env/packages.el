@@ -49,7 +49,7 @@
     counsel-etags
     (company :location built-in)
     company-anaconda
-    company-jedi
+    ;company-jedi
     cmake-mode
     cc-mode
     counsel
@@ -158,7 +158,7 @@ Each entry is either:
 ;  (add-hook 'python-mode-hook 'anaconda-eldoc-mode))
 
 (defun deepnetni-emacs-env/post-init-company ()
-    (setq compandy-minimum-prefix-length 4)
+    (setq compandy-minimum-prefix-length 1)
     (setq company-tooltip-align-annotations t)
     ;; items in the completion list are sorted by frequency of use
     (setq company-transformers '(company-sort-by-occurrence))

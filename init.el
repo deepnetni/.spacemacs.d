@@ -38,14 +38,19 @@ This function should only modify configuration layer settings."
      systemd
      (conda :variables conda-anaconda-home "C:\\Users\\niye\\.conda\\")
      ;; use anaconda as python's backend
-     (python :variables python-backend 'anaconda)
+     (python :variables
+             python-backend 'anaconda
+             python-save-before-test t)
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      ivy
-     auto-completion
+     (auto-completion :variables
+                      auto-completion-enable-help-tooltip nil         ;; show docstring tips
+                      auto-completion-enable-snippets-in-popup t    ;; show tips in popup window
+                      auto-completion-complete-with-key-sequence-delay 0.1)
      better-defaults
      emacs-lisp
      (git :variables git-magit-status-fullscreen t)
@@ -619,7 +624,6 @@ before packages are loaded."
   (setq make-backup-files nil)
   (setq indent-tabs-mode nil)
   (setq c-default-style "k&r")
-  (setq auto-completion-enable-snippets-in-popup t)
   (setq layouts-enable-autosave t)
 
   (setq tags-table-list nil)

@@ -43,8 +43,8 @@
 
 (define-key evil-motion-state-map (kbd "C-b") 'backward-word)
 ;(define-key evil-motion-state-map (kbd "w") 'forward-word)
-(define-key evil-motion-state-map (kbd "M-u") 'evil-window-top)
-(define-key evil-motion-state-map (kbd "M-n") 'evil-window-bottom)
+;(define-key evil-motion-state-map (kbd "M-u") 'evil-window-top)
+;(define-key evil-motion-state-map (kbd "M-n") 'evil-window-bottom)
 ;(define-key evil-insert-state-map (kbd "C-h") 'evil-backward-char)
 ;(define-key evil-insert-state-map (kbd "C-l") 'evil-forward-char)
 (define-key evil-insert-state-map (kbd "C-h") 'left-char)
