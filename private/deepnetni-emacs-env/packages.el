@@ -49,11 +49,12 @@
     counsel-etags
     (company :location built-in)
     company-anaconda
-    company-jedi
+    ;company-jedi
     cmake-mode
     cc-mode
     counsel
     ;ggtags
+    ;esup
     helm-ag
     hl-todo
     imenu-list
@@ -99,8 +100,7 @@ Each entry is either:
 
 (defun deepnetni-emacs-env/post-init-abbrev ()
   (add-hook 'emacs-lisp-mode-hook 'abbrev-mode)
-  (define-abbrev-table 'global-abbrev-table '(("niye" "deepnetni-emacs-env")
-                                              ("niye/" "deepnetni-emacs-env/"))))
+  (define-abbrev-table 'global-abbrev-table '(("niye/" "deepnetni-emacs-env/"))))
 
 (defun deepnetni-emacs-env/init-counsel-etags ()
   (use-package counsel-etags
@@ -158,7 +158,7 @@ Each entry is either:
 ;  (add-hook 'python-mode-hook 'anaconda-eldoc-mode))
 
 (defun deepnetni-emacs-env/post-init-company ()
-    (setq compandy-minimum-prefix-length 4)
+    (setq compandy-minimum-prefix-length 1)
     (setq company-tooltip-align-annotations t)
     ;; items in the completion list are sorted by frequency of use
     (setq company-transformers '(company-sort-by-occurrence))
@@ -208,13 +208,10 @@ Each entry is either:
 (defun deepnetni-emacs-env/pre-init-counsel ()
   (spacemacs|use-package-add-hook counsel
     :post-init
-    (progn
-      (add-hook 'c-mode-hook (lambda ()
-                                 (define-key c-mode-map (kbd "C-c C-c") 'counsel-ag)))
-      ;(global-set-key (kbd "C-c j") 'counsel-git-grep)
-      ; use projectile to get file C-p
-      ;(global-set-key (kbd "C-c f") 'counsel-git)
-      )))
+    ;(global-set-key (kbd "C-c j") 'counsel-git-grep)
+    ; use projectile to get file C-p
+    ;(global-set-key (kbd "C-c f") 'counsel-git)
+    ))
 
 ; (defun deepnetni-emacs-env/init-ggtags ()
 ;   (use-package ggtags
@@ -224,6 +221,11 @@ Each entry is either:
 ;               (lambda ()
 ;                 (when (derived-mode-p 'c-mode 'c++-mode 'java-mode)
 ;                   (ggtags-mode 1))))))
+
+(defun deepnetni-emacs-env/init-esup ()
+  (use-package esup
+    :ensure t
+    :pin melpa))
 
 (defun deepnetni-emacs-env/init-helm-ag ()
   (use-package helm-ag
@@ -240,7 +242,7 @@ Each entry is either:
        ;'(helm-ag-base-command "ag --nocolor --nogroup -w")
        ;'(helm-ag-command-option "--all-text")
        ;'(helm-ag--ignore-case)
-       '(helm-ag-ignore-buffer-patterns '("\\.txt\\'" "\\.mkd\\'")))
+       '(helm-ag-ignore-buffer-patterns '("\\.txt\\'" "\\.mkd\\'" "TAGS")))
       (global-set-key (kbd "C-c a") 'helm-ag-project-root)
       (global-set-key (kbd "C-l") 'helm-do-ag-project-root)
       (global-set-key (kbd "C-j") 'helm-resume)

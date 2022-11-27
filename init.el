@@ -33,42 +33,45 @@ This function should only modify configuration layer settings."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
-     ;; use anaconda as python's backend
-     (python :variables python-backend 'anaconda)
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      ivy
-     auto-completion
+     (auto-completion :variables
+                      auto-completion-enable-help-tooltip nil         ;; show docstring tips
+                      auto-completion-enable-snippets-in-popup t    ;; show tips in popup window
+                      auto-completion-complete-with-key-sequence-delay 0.1)
      better-defaults
      emacs-lisp
      (git :variables git-magit-status-fullscreen t)
-     ;(lsp :variables lsp-modeline-code-actions-enable nil)
-     ;; markdown
-     ;; multiple-cursors
+     ;; use anaconda as python's backend
+     (python :variables
+             python-backend 'anaconda
+             python-save-before-test t)
+     ;; helm
+     ;; lsp
+     markdown
+     multiple-cursors
      ;; org
-     ;; (shell :variables
-     ;;        shell-default-height 30
-     ;;        shell-default-position 'bottom
-     ;;        shell-default-shell 'eshell)
+     (shell :variables
+            shell-default-height 30
+            shell-default-position 'bottom
+            shell-default-shell (if (eq window-system 'w32)
+                                    'shell
+                                  'ansi-term))
      themes-megapack
-     c-c++
      cmake
-     ;(c-c++ :variables
-     ;       c-c++-adopt-subprojects t
-     ;       c-c++-backend 'lsp-ccls
-     ;       c-c++-lsp-enable-semantic-highlight t)
-     ;spell-checking
-     ;syntax-checking
+     c-c++
+     ;; spell-checking
+     ;; syntax-checking
      (spacemacs-layouts :variables layouts-enable-autosave t
-                        layouts-autosave-delay 300)
+                        layouts-autosave-delay 600)
      ;; version-control
-     ;; chinese
      (treemacs :variables treemacs-use-filewatch-mode t)
-     deepnetni-emacs-env
-     )
+     (conda :variables conda-anaconda-home "~/anaconda3")
+     deepnetni-emacs-env)
 
 
    ;; List of additional packages that will be installed without being wrapped
@@ -87,8 +90,10 @@ This function should only modify configuration layer settings."
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages '(tern
                                     string-edit
+                                    journalctl-mode
                                     farmhouse-theme
                                     evil-ediff
+                                    eziam-theme
                                     darkburn-theme
                                     vi-tilde-fringe)
    ;; Defines the behaviour of Spacemacs when installing packages.
@@ -98,7 +103,7 @@ This function should only modify configuration layer settings."
    ;; installs only the used packages but won't delete unused ones. `all'
    ;; installs *all* packages supported by Spacemacs and never uninstalls them.
    ;; (default is `used-only')
-   dotspacemacs-install-packages 'used-only))
+   dotspacemacs-install-packages 'used-but-keep-unused))
 
 (defun dotspacemacs/init ()
   "Initialization:
@@ -217,7 +222,7 @@ It should only modify the values of Spacemacs settings."
    ;; number is the project limit and the second the limit on the recent files
    ;; within a project.
    dotspacemacs-startup-lists '((recents . 5)
-                                (projects . 7))
+                                (projects . 5))
 
    ;; True if the home buffer should respond to resize events. (default t)
    dotspacemacs-startup-buffer-responsive t
@@ -257,8 +262,9 @@ It should only modify the values of Spacemacs settings."
    ;; Press `SPC T n' to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
-                         sanityinc-tomorrow-blue
                          obsidian
+                         spacemacs-dark
+                         sanityinc-tomorrow-blue
                          zenburn
                          sanityinc-tomorrow-night
                          noctilux
@@ -272,9 +278,10 @@ It should only modify the values of Spacemacs settings."
    ;; refer to the DOCUMENTATION.org for more info on how to create your own
    ;; spaceline theme. Value can be a symbol or list with additional properties.
    ;; (default '(spacemacs :separator wave :separator-scale 1.5))
-   dotspacemacs-mode-line-theme '(spacemacs :separator arrow :separator-scale 1.5)
+   ;dotspacemacs-mode-line-theme '(vim-powerline)
+   ;dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.0)
    ;; download fonts at https://github.com/domtronn/all-the-icons.el
-   ;dotspacemacs-mode-line-theme '(all-the-icons :separator arrow :separator-scale 1.5)
+   dotspacemacs-mode-line-theme '(all-the-icons :separator arrow :separator-scale 1.7)
 
    ;; If non-nil the cursor color matches the state color in GUI Emacs.
    ;; (default t)
@@ -286,8 +293,7 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-default-font '("InputMono"
                                :size 14.0
                                :weight bold
-                               :width normal
-                               :powerline-scale 1.1)
+                               :width normal)
 
    ;; The leader key (default "SPC")
    dotspacemacs-leader-key "SPC"
@@ -324,7 +330,7 @@ It should only modify the values of Spacemacs settings."
    ;; Name of the default layout (default "Default")
    dotspacemacs-default-layout-name "main"
 
-   ;; If non nil the default layout name is displayed in the mode-line.
+   ;; If non-nil the default layout name is displayed in the mode-line.
    ;; (default nil)
    dotspacemacs-display-default-layout t
 
@@ -585,18 +591,16 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
       ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
       ("nongnu" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/")))
+
   (add-hook 'after-init-hook 'global-company-mode)
   (eval-after-load 'company
     '(add-to-list 'company-backends '(company-irony company-yasnippet)))
   ;(add-hook 'c-mode-hook 'irony-mode)
-  ;(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
   (add-hook 'dired-mode-hook 'auto-revert-mode)
   (defalias 'which-key-declare-prefixes 'ignore)
   (defalias 'which-key-declare-prefixes-for-mode 'ignore)
   (setq tramp-ssh-controlmaster-options
     "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
-  ;; init auto-dim-other-buffers
-  ;(add-hook 'after-init-hook (lambda () (auto-dim-other-buffers-mode t)))
 )
 
 
@@ -614,6 +618,7 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+
   (setq-default indent-tabs-mode nil)
   (setq-default tab-width 4)
   (setq-default dotspacemacs-scratch-mode 'emacs-lisp-mode)
@@ -626,7 +631,6 @@ before packages are loaded."
   (setq make-backup-files nil)
   (setq indent-tabs-mode nil)
   (setq c-default-style "k&r")
-  (setq auto-completion-enable-snippets-in-popup t)
   (setq layouts-enable-autosave t)
 
   (setq tags-table-list nil)
@@ -658,13 +662,12 @@ before packages are loaded."
   ;(setq-default ispell-program-name "aspell")
 )
 
-
 ;; Do not write anything past this comment. This is where Emacs will
 (setq custom-file (expand-file-name "custom.el" dotspacemacs-directory))
 ;; create custom-file if it is not exist
-;(unless (file-exists-p custom-file)
-;  (shell-command (concat "touch " custom-file)))
-(write-region "" nil custom-file)
+(unless (file-exists-p custom-file)
+  (shell-command (concat "touch " custom-file)))
+;(write-region "" nil custom-file)
 (load custom-file 'no-error 'no-message)
 
 ;; auto-generate custom variable definitions.
