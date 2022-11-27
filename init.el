@@ -53,7 +53,7 @@ This function should only modify configuration layer settings."
      ;; helm
      ;; lsp
      markdown
-     multiple-cursors
+     ;multiple-cursors
      ;; org
      (shell :variables
             shell-default-height 30
