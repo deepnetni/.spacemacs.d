@@ -32,20 +32,23 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(markdown
-     windows-scripts
-     ;vim-powerline
-     systemd
-     (conda :variables conda-anaconda-home "C:\\Users\\niye\\.conda\\")
-     ;; use anaconda as python's backend
-     (python :variables
-             python-backend 'anaconda
-             python-save-before-test t)
-     ;; ----------------------------------------------------------------
+   '(;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
+     markdown
+     windows-scripts
+     ;vim-powerline
+     systemd
+     ;lsp
+     (conda :variables conda-anaconda-home "C:\\Users\\niye\\.conda\\")
+     ;; use anaconda as python's backend
+     (python :variables
+             python-backend 'anaconda
+             ;python-backend 'lsp
+             ;python-lsp-server 'pylsp
+             python-save-before-test t)
      ivy
      (auto-completion :variables
                       auto-completion-enable-help-tooltip nil         ;; show docstring tips
@@ -94,6 +97,7 @@ This function should only modify configuration layer settings."
 
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages '(tern journalctl-mode vi-tilde-fringe darkburn-theme
+                                         dap-mode
                                          farmhouse-theme)
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
@@ -661,6 +665,6 @@ before packages are loaded."
 (unless (file-exists-p custom-file)
   (shell-command (concat "touch " custom-file)))
 ;(write-region "" nil custom-file)
-;(load custom-file 'no-error 'no-message)
+(load custom-file 'no-error 'no-message)
 
 ;; auto-generate custom variable definitions.

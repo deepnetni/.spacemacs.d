@@ -61,7 +61,7 @@
 (define-key evil-motion-state-map (kbd "C-b") 'evil-first-non-blank)
 ;(define-key evil-motion-state-map (kbd "H") 'evil-first-non-blank)
 ;(define-key evil-motion-state-map (kbd "L") 'evil-end-of-line)
-(define-key evil-motion-state-map (kbd "C-<tab>") 'powershell)
+;(define-key evil-motion-state-map (kbd "C-<tab>") 'powershell)
 
 (define-key global-map (kbd "C-h C-f") 'find-function)
 (define-key global-map (kbd "C-h C-v") 'find-variable)
