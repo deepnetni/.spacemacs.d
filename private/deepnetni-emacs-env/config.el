@@ -7,6 +7,12 @@
                               (time-subtract after-init-time before-init-time)))
                      gcs-done)))
 
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (setq hide-ifdef-shadow t)
+            (hide-ifdef-mode)
+            (hide-ifdefs)))
+
 (with-eval-after-load 'lsp-mode
   (add-hook 'lsp-mode-hook #'lsp-enable-which-key-integration)
   (yas-global-mode))
