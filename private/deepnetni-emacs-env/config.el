@@ -7,10 +7,14 @@
                               (time-subtract after-init-time before-init-time)))
                      gcs-done)))
 
+;(deepnetni-emacs-env/load-json-file "config.json")
+
+;; add macro definitions with `hide-ifdef-define` and undefine it by `hide-ifdef-undef`
 (add-hook 'c-mode-common-hook
           (lambda ()
             (setq hide-ifdef-shadow t)
             (hide-ifdef-mode)
+            ;(deepnetni-emacs-env/load-json-file "macro.json")
             (hide-ifdefs)))
 
 (with-eval-after-load 'lsp-mode

@@ -27,3 +27,17 @@
       (undo-tree-load-history &rest args)
     (let ((inhibit-message t))
       (apply undo-tree-load-history args))))
+
+;; load json macro configure
+;(defun deepnetni-emacs-env/load-json-file (fname)
+;  "read it's content if file exist, else do nothing"
+;  (let ((fpath (expand-file-name (concat projectile-project-root fname)))
+;        json-alist)
+;    (when (file-exists-p fpath)
+;      (message "load macro from file %s" fpath)
+;      (setq json-array-type 'list)
+;      (setq json-alist (json-read-file fpath))
+;      (dolist (macro (alist-get 'defines json-alist))
+;        (hide-ifdef-define macro))
+;      (dolist (macro (alist-get 'undefs json-alist))
+;        (hide-ifdef-undef macro)))))
