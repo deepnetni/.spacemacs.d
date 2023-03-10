@@ -46,6 +46,7 @@
 (defconst deepnetni-emacs-env-packages
   '((abbrev :location built-in)
     all-the-icons
+    all-the-icons-dired
     counsel-etags
     (company :location built-in)
     company-anaconda
@@ -197,8 +198,21 @@ Each entry is either:
     (setq company-transformers '(company-sort-by-occurrence))
     (setq company-selection-wrap-around t)))
 
+(defun deepnetni-emacs-env/init-all-the-icons-dired ()
+  (use-package all-the-icons-dired
+    :config
+    (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+    :commands all-the-icons-dired-mode))
+
+;(defun spacemacs-visual/init-all-the-icons ()
+;  (use-package all-the-icons
+;    :defer t
+;    :if (display-grayscale-p)))
+
 (defun deepnetni-emacs-env/pre-init-all-the-icons ()
   (spacemacs|use-package-add-hook all-the-icons
+    :if (display-grayscale-p)
+    :after (:any all-the-icons-dired-mode)
     :post-init
     :post-config
     (setq inhibit-compacting-font-caches t)

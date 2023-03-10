@@ -104,8 +104,8 @@
             (with-eval-after-load 'spaceline-all-the-icons
               (spaceline-toggle-all-the-icons-buffer-size-off)
               (spaceline-toggle-all-the-icons-flycheck-status-off)
-              (spaceline-toggle-all-the-icons-time-off)
-              (spaceline-toggle-all-the-icons-mode-icon-off)
+              (spaceline-toggle-all-the-icons-time-on)
+              (spaceline-toggle-all-the-icons-mode-icon-on)
               (spaceline-toggle-all-the-icons-position-off))
             ;; configure coding system to support Chinese characters
             (set-language-environment 'Chinese-GB)

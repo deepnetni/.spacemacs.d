@@ -32,12 +32,13 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(javascript
+   '(
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
+     javascript
      ivy
      (auto-completion :variables
                       auto-completion-enable-help-tooltip nil         ;; show docstring tips
@@ -55,12 +56,13 @@ This function should only modify configuration layer settings."
      markdown
      ;multiple-cursors
      ;; org
-     (shell :variables
-            shell-default-height 30
-            shell-default-position 'bottom
-            shell-default-shell (if (eq window-system 'w32)
-                                    'shell
-                                  'ansi-term))
+
+     ;(shell :variables
+     ;       shell-default-height 30
+     ;       shell-default-position 'bottom
+     ;       shell-default-shell (if (eq window-system 'w32)
+     ;                               'shell
+     ;                             'ansi-term))
      themes-megapack
      cmake
      c-c++
@@ -265,8 +267,8 @@ It should only modify the values of Spacemacs settings."
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
                          obsidian
-                         spacemacs-dark
                          sanityinc-tomorrow-blue
+                         spacemacs-dark
                          zenburn
                          sanityinc-tomorrow-night
                          noctilux
