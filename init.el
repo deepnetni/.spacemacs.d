@@ -50,7 +50,12 @@ This function should only modify configuration layer settings."
      ;; use anaconda as python's backend
      (python :variables
              python-backend 'anaconda
-             python-save-before-test t)
+             python-save-before-test t
+             python-formatter 'black
+             python-format-on-save t
+             python-test-runner '(pytest nose)
+             ;; sort imports
+             python-sort-imports-on-save t)
      ;; helm
      ;; lsp
      markdown
@@ -595,15 +600,6 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
       ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
       ("nongnu" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/")))
-
-  (add-hook 'after-init-hook 'global-company-mode)
-  ;(eval-after-load 'company
-  ;  '(add-to-list 'company-backends '(company-irony company-yasnippet)))
-  (add-hook 'dired-mode-hook 'auto-revert-mode)
-  (defalias 'which-key-declare-prefixes 'ignore)
-  (defalias 'which-key-declare-prefixes-for-mode 'ignore)
-  (setq tramp-ssh-controlmaster-options
-        "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
 )
 
 
@@ -622,6 +618,18 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
+  (add-hook 'after-init-hook 'global-company-mode)
+  (add-hook 'after-init-hook 'global-flycheck-mode)
+  ;(eval-after-load 'company
+  ;  '(add-to-list 'company-backends '(company-irony company-yasnippet)))
+  (add-hook 'dired-mode-hook 'auto-revert-mode)
+  (defalias 'which-key-declare-prefixes 'ignore)
+  (defalias 'which-key-declare-prefixes-for-mode 'ignore)
+  (setq tramp-ssh-controlmaster-options
+        "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
+
+  ;; ignore keep current list of tags table also when boot up
+  (setq tags-add-tables nil)
   (setq-default indent-tabs-mode nil)
   (setq-default tab-width 4)
   (defvaralias 'c-basic-offset 'tab-width)
@@ -654,12 +662,7 @@ before packages are loaded."
   (global-centered-cursor-mode -1)
   (custom-set-faces '(evil-ex-lazy-highlight ((t (:inherit isearch)))))
 
-  ;; configure company-irony
-  ;(add-hook 'c++-mode-hook 'irony-mode)
-  ;(add-hook 'c-mode-hook 'irony-mode)
-  ;(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-
-  (deepnetni-mode t)
+  ;(deepni-settings-mode t)
   (remove-hook 'python-mode-hook 'importmagic-mode)
 
   ;(setq hide-ifdef-initially t)

@@ -1,3 +1,8 @@
+;;; config --- settings
+
+;;; Commentary:
+;;; Code:
+
 ;; Use a hook so the message doesn't get clobbered by other messages.
 (add-hook 'emacs-startup-hook
           (lambda ()
@@ -50,7 +55,7 @@
             (define-key python-mode-map (kbd "M-n") 'spacemacs/python-execute-file)
             (define-key python-mode-map (kbd "C-j") 'helm-resume)))
 
-(setq deepnetni-emacs-env--goto-center-hook
+(defvar deepnetni-emacs-env--goto-center-hook
       #'(evil-goto-mark
          ;evil-ex-search-next
          ;evil-ex-search-previous
@@ -58,28 +63,19 @@
          evil-jump-forward
          pop-tag-mark))
 
-;; ================== minor mode part ================== ;;
-;; define minor mode
-(define-minor-mode deepnetni-mode
-  "A minor mode for deepnetni to override conflict settings."
-  :init-value t
-  :lighter "")
-
-
-;; override keybinds defined after deepnetni packages
-(defvar deepnetni-mode-map
-  (let ((map (make-sparse-keymap)))
-    ;(define-key map (kbd "") 'some-function)
-    map)
-  "deepnet ni minor mode keybindings")
-
-(add-hook 'deepnetni-mode-hook
+(add-hook 'deepni-settings-mode-hook
           (lambda ()
              (deepnetni-emacs-env//goto-line-center
               deepnetni-emacs-env--goto-center-hook)))
 
-(add-hook 'deepnetni-mode-hook
+(add-hook 'deepni-settings-mode-hook
           (lambda ()
+            (define-key deepni-settings-mode-map (kbd "M-h") #'evil-window-left)
+            (define-key deepni-settings-mode-map (kbd "M-l") #'evil-window-right)
+            (define-key deepni-settings-mode-map (kbd "M-j") #'evil-window-down)
+            (define-key deepni-settings-mode-map (kbd "M-k") #'evil-window-up)
+            (define-key deepni-settings-mode-map (kbd "C-c C-f") #'deepnetni-emacs-env/format-code)
+
             (global-undo-tree-mode t)
             ;; Automatically synchronize modifications to buffer
             (global-auto-revert-mode t)
@@ -103,7 +99,7 @@
             ;; all-the-icons mode line configurations
             (with-eval-after-load 'spaceline-all-the-icons
               (spaceline-toggle-all-the-icons-buffer-size-off)
-              (spaceline-toggle-all-the-icons-flycheck-status-off)
+              (spaceline-toggle-all-the-icons-flycheck-status-on)
               (spaceline-toggle-all-the-icons-time-on)
               ;(spaceline-toggle-all-the-icons-temperature-on)
               ;(spaceline-toggle-all-the-icons-sunset-on)
@@ -120,7 +116,7 @@
             ;; configure terminal coding system
             (set-terminal-coding-system 'utf-8-unix)))
 
-(add-hook 'minibuffer-setup-hook (lambda () (deepnetni-mode nil)))
+(add-hook 'minibuffer-setup-hook (lambda () (deepni-settings-mode nil)))
 
 ;; better configurations
 (advice-add #'undo-tree-load-history
@@ -137,3 +133,5 @@
 ;; diminish lets you fight modeline clutter
 ;; by removing or abbreviating minor mode indicators
 ;(eval-after-load "xx" '(diminish 'xx-mode))
+
+;;; config.el ends here

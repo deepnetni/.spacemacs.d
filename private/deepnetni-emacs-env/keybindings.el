@@ -27,7 +27,12 @@
   "c h" 'gendoxy-header
   "c t" 'gendoxy-tag)
 
-(define-key global-map (kbd "C-c C-f") 'deepnetni-emacs-env/format-code)
+;(define-key deepni-settings-mode-map (kbd "M-h") #'evil-window-left)
+;(define-key deepni-settings-mode-map (kbd "M-l") #'evil-window-right)
+;(define-key deepni-settings-mode-map (kbd "M-j") #'evil-window-down)
+;(define-key deepni-settings-mode-map (kbd "M-k") #'evil-window-up)
+;(define-key deepni-settings-mode-map (kbd "C-c C-f") #'deepnetni-emacs-env/format-code)
+
 (define-key global-map (kbd "C-c d") #'hide-ifdef-define)
 (define-key global-map (kbd "C-c u") #'hide-ifdef-undef)
 
@@ -89,10 +94,10 @@
 (define-key evil-normal-state-map (kbd "C-w g") 'spacemacs/toggle-golden-ratio)
 (define-key evil-normal-state-map (kbd "C-w C-h") 'evil-window-left)
 (define-key evil-normal-state-map (kbd "C-n") #'company-search-candidates)
-(define-key evil-normal-state-map (kbd "M-h") 'evil-window-left)
-(define-key evil-normal-state-map (kbd "M-l") 'evil-window-right)
-(define-key evil-normal-state-map (kbd "M-j") 'evil-window-down)
-(define-key evil-normal-state-map (kbd "M-k") 'evil-window-up)
+;(define-key evil-normal-state-map (kbd "M-h") 'evil-window-left)
+;(define-key evil-normal-state-map (kbd "M-l") 'evil-window-right)
+;(define-key evil-normal-state-map (kbd "M-j") 'evil-window-down)
+;(define-key evil-normal-state-map (kbd "M-k") 'evil-window-up)
 
 ;(define-key evil-visual-state-map (kbd "C-c") (progn ()))
 ;; (global-set-key [f8] 'neotree-toggle)

@@ -27,5 +27,10 @@
 ;; This is a special case only for distribution layers.
 ;;(configuration-layer/declare-layer '(spacemacs-evil))
 
+;;; code:
 (configuration-layer/remove-layer 'github)
-(configuration-layer/declare-layer 'c-c++)
+;(configuration-layer/declare-layer 'c-c++)
+;(configuration-layer/declare-layer 'spacemacs-bootstrap)
+
+;(provide 'layers)
+;;; layers.el ends here

@@ -40,13 +40,22 @@
 
 ;;; Code:
 
+;; In :config should be
+;; - Anything that requires the package to be already loaded.
+;; - Anything that takes a long time to run, which would ruin startup performance.
+;; In :init should be
+;; - keybinds
+;; - hooks
+
 ;; Each package should be owned by one layer only.
 ;; The layer that owns the package should define its init function.
 ;; Other layers should rely on pre-init or post-init functions.
 (defconst deepnetni-emacs-env-packages
   '((abbrev :location built-in)
+    (deepni-settings :location local)
     all-the-icons
     all-the-icons-dired
+    blacken
     counsel-etags
     (company :location built-in)
     company-anaconda
@@ -102,6 +111,13 @@ Each entry is either:
 ;; In Spacemacs, layers are loaded in order of inclusion in the dotfile,
 ;; and packages are loaded in alphabetical order.
 
+(defun deepnetni-emacs-env/init-deepni-settings ()
+  (use-package deepni-settings
+  :load-path "~/.spacemacs.d/private/core"
+  :commands (deepni-settings-mode)
+  :config
+  (deepni-settings-mode t)))
+
 (defun deepnetni-emacs-env/post-init-abbrev ()
   (add-hook 'emacs-lisp-mode-hook 'abbrev-mode)
   (define-abbrev-table 'global-abbrev-table '(("niye/" "deepnetni-emacs-env/"))))
@@ -109,7 +125,6 @@ Each entry is either:
 (defun deepnetni-emacs-env/init-counsel-etags ()
   (use-package counsel-etags
     :delight
-    :defer t
     :ensure t
     ;:pin melpa-cn
     :bind (:map evil-motion-state-map ("C-]" . counsel-etags-find-tag-at-point))
@@ -188,6 +203,11 @@ Each entry is either:
     (add-hook 'c-mode-hook 'irony-mode)
     :config
     (irony-cdb-autosetup-compile-options)))
+
+(defun deepnetni-emacs-env/post-init-blacken ()
+  (spacemacs|use-package-add-hook blacken
+    :post-config
+    (setq blacken-line-length '95)))
 
 (defun deepnetni-emacs-env/post-init-company ()
   (spacemacs|use-package-add-hook company
