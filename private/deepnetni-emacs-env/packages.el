@@ -215,6 +215,8 @@ Each entry is either:
     :after (:any all-the-icons-dired-mode)
     :post-init
     :post-config
+    ;(spaceline-toggle-all-the-icons-buffer-position-on)
+    (setq spaceline-all-the-icons-icon-set-sun-time 'sun/moon)
     (setq inhibit-compacting-font-caches t)
     (setq spaceline-all-the-icons-icon-set-window-numbering 'square)
     (setq spaceline-all-the-icons-icon-set-eyebrowse-slot 'solid)

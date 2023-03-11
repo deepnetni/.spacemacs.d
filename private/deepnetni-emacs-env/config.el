@@ -105,6 +105,8 @@
               (spaceline-toggle-all-the-icons-buffer-size-off)
               (spaceline-toggle-all-the-icons-flycheck-status-off)
               (spaceline-toggle-all-the-icons-time-on)
+              ;(spaceline-toggle-all-the-icons-temperature-on)
+              ;(spaceline-toggle-all-the-icons-sunset-on)
               (spaceline-toggle-all-the-icons-mode-icon-on)
               (spaceline-toggle-all-the-icons-position-off))
             ;; configure coding system to support Chinese characters
