@@ -20,6 +20,17 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+;; ============================== space ==============================
+(spacemacs/set-leader-keys
+  "b k" 'kill-matching-buffers
+  "b l" 'ibuffer
+  "c h" 'gendoxy-header
+  "c t" 'gendoxy-tag)
+
+(define-key global-map (kbd "C-c C-f") 'deepnetni-emacs-env/format-code)
+(define-key global-map (kbd "C-c d") #'hide-ifdef-define)
+(define-key global-map (kbd "C-c u") #'hide-ifdef-undef)
+
 ;;(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
 (define-key global-map (kbd "C-k") nil)
@@ -67,12 +78,6 @@
 (define-key global-map (kbd "C-h C-v") 'find-variable)
 (define-key global-map (kbd "C-h C-k") 'find-function-on-key)
 
-(spacemacs/set-leader-keys
-  "b k" 'kill-matching-buffers
-  "b l" 'ibuffer
-  "c h" 'gendoxy-header
-  "c t" 'gendoxy-tag)
-
 (define-key evil-normal-state-map (kbd "C-a") 'evil-numbers/inc-at-pt)
 (define-key evil-normal-state-map (kbd "C-x") 'evil-numbers/dec-at-pt)
 (define-key evil-motion-state-map (kbd "C-f") 'counsel-find-file)
@@ -83,6 +88,7 @@
 (define-key evil-normal-state-map (kbd "C-,") 'evil-window-decrease-width)
 (define-key evil-normal-state-map (kbd "C-w g") 'spacemacs/toggle-golden-ratio)
 (define-key evil-normal-state-map (kbd "C-w C-h") 'evil-window-left)
+(define-key evil-normal-state-map (kbd "C-n") #'company-search-candidates)
 (define-key evil-normal-state-map (kbd "M-h") 'evil-window-left)
 (define-key evil-normal-state-map (kbd "M-l") 'evil-window-right)
 (define-key evil-normal-state-map (kbd "M-j") 'evil-window-down)

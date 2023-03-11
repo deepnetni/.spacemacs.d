@@ -42,7 +42,7 @@ This function should only modify configuration layer settings."
      (auto-completion :variables
                       auto-completion-enable-help-tooltip nil         ;; show docstring tips
                       auto-completion-enable-snippets-in-popup t    ;; show tips in popup window
-                      auto-completion-complete-with-key-sequence-delay 0.1)
+                      auto-completion-complete-with-key-sequence-delay 0.05)
      better-defaults
      emacs-lisp
      (git :variables git-magit-status-fullscreen t)
@@ -64,6 +64,8 @@ This function should only modify configuration layer settings."
      themes-megapack
      cmake
      c-c++
+     ;(c-c++ :variables
+     ;       c-c++-backend 'company-irony)
      ;; spell-checking
      ;; syntax-checking
      (spacemacs-layouts :variables layouts-enable-autosave t
@@ -82,7 +84,7 @@ This function should only modify configuration layer settings."
    ;; `dotspacemacs/user-config'. To use a local version of a package, use the
    ;; `:location' property: '(your-package :location "~/path/to/your-package/")
    ;; Also include the dependencies as they will not be resolved automatically.
-   dotspacemacs-additional-packages '(company-irony)
+   dotspacemacs-additional-packages '()
 
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -593,14 +595,13 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
       ("nongnu" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/")))
 
   (add-hook 'after-init-hook 'global-company-mode)
-  (eval-after-load 'company
-    '(add-to-list 'company-backends '(company-irony company-yasnippet)))
-  ;(add-hook 'c-mode-hook 'irony-mode)
+  ;(eval-after-load 'company
+  ;  '(add-to-list 'company-backends '(company-irony company-yasnippet)))
   (add-hook 'dired-mode-hook 'auto-revert-mode)
   (defalias 'which-key-declare-prefixes 'ignore)
   (defalias 'which-key-declare-prefixes-for-mode 'ignore)
   (setq tramp-ssh-controlmaster-options
-    "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
+        "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
 )
 
 
@@ -621,12 +622,12 @@ before packages are loaded."
 
   (setq-default indent-tabs-mode nil)
   (setq-default tab-width 4)
+  (defvaralias 'c-basic-offset 'tab-width)
+  (defvaralias 'cperl-indent-level 'tab-width)
+
   (setq-default dotspacemacs-scratch-mode 'emacs-lisp-mode)
   ;; delete ^ in M-x
   (setq ivy-initial-inputs-alist nil)
-
-  (defvaralias 'c-basic-offset 'tab-width)
-  (defvaralias 'cperl-indent-level 'tab-width)
 
   (setq make-backup-files nil)
   (setq indent-tabs-mode nil)
@@ -636,7 +637,7 @@ before packages are loaded."
   (setq tags-table-list nil)
   (setq debug-on-error nil)
 
-  ; search don't go to beginning of file
+  ;; search don't go to beginning of file
   (setq isearch-wrap-function #'ignore)
   (setq evil-search-wrap nil)
   ;(menu-bar-mode 1)
@@ -645,10 +646,16 @@ before packages are loaded."
   ;; this is the folder where you keep all your git-controlled projects
   ;(global-git-commit-mode t)
 
-  (display-time-mode t)
+  ;(display-time-mode t)
+
   ;; the cursor always remains in the centere of the file when set
   (global-centered-cursor-mode -1)
   (custom-set-faces '(evil-ex-lazy-highlight ((t (:inherit isearch)))))
+
+  ;; configure company-irony
+  ;(add-hook 'c++-mode-hook 'irony-mode)
+  ;(add-hook 'c-mode-hook 'irony-mode)
+  ;(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
 
   (deepnetni-mode t)
   (remove-hook 'python-mode-hook 'importmagic-mode)
@@ -669,5 +676,6 @@ before packages are loaded."
   (shell-command (concat "touch " custom-file)))
 ;(write-region "" nil custom-file)
 (load custom-file 'no-error 'no-message)
+;(load custom-file)
 
 ;; auto-generate custom variable definitions.

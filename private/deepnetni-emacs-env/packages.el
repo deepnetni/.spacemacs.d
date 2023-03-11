@@ -49,6 +49,9 @@
     counsel-etags
     (company :location built-in)
     company-anaconda
+    company-irony
+    company-irony-c-headers
+    irony
     ;company-jedi
     cmake-mode
     cc-mode
@@ -157,12 +160,42 @@ Each entry is either:
 ;  (add-hook 'python-mode-hook 'anaconda-mode)
 ;  (add-hook 'python-mode-hook 'anaconda-eldoc-mode))
 
+(defun deepnetni-emacs-env/init-company-irony ()
+  (use-package company-irony
+    :defer t
+    :after (irony company-irony-c-headers)))
+    ;:init
+    ;;; not work, don't know why
+    ;(spacemacs|add-company-backends :backends
+    ;                                company-irony-c-headers
+    ;                                company-irony
+    ;                                :modes c-mode)))
+    ;(add-to-list 'company-backends '(company-irony-c-headers company-irony))))
+
+;; the irony cannot company .h files without the following single package
+(defun deepnetni-emacs-env/init-company-irony-c-headers ()
+  (use-package company-irony-c-headers
+    :defer t
+    :after irony))
+
+(defun deepnetni-emacs-env/init-irony ()
+  (use-package irony
+    :defer t
+    :diminish irony-mode
+    :init
+    (add-hook 'c++-mode-hook 'irony-mode)
+    (add-hook 'c-mode-hook 'irony-mode)
+    :config
+    (irony-cdb-autosetup-compile-options)))
+
 (defun deepnetni-emacs-env/post-init-company ()
-    (setq compandy-minimum-prefix-length 1)
+  (spacemacs|use-package-add-hook company
+    :post-config
+    (setq company-minimum-prefix-length 1)
     (setq company-tooltip-align-annotations t)
     ;; items in the completion list are sorted by frequency of use
     (setq company-transformers '(company-sort-by-occurrence))
-    (setq company-selection-wrap-around t))
+    (setq company-selection-wrap-around t)))
 
 (defun deepnetni-emacs-env/pre-init-all-the-icons ()
   (spacemacs|use-package-add-hook all-the-icons

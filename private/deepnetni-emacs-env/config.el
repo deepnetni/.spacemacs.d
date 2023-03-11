@@ -27,6 +27,12 @@
   (defalias #'forward-evil-word #'forward-evil-symbol)
   (setq-default evil-symbol-word-search t))
 
+(with-eval-after-load 'company
+  (spacemacs|add-company-backends :backends
+                                  company-irony-c-headers
+                                  company-irony
+                                  :modes c-mode))
+
 ; <C-c> <C-p> enter run-python mode
 (add-hook 'inferior-python-mode-hook
           (lambda ()
@@ -74,15 +80,22 @@
 
 (add-hook 'deepnetni-mode-hook
           (lambda ()
+            (global-undo-tree-mode t)
+            ;; Automatically synchronize modifications to buffer
+            (global-auto-revert-mode t)
+            ;; hide the minor mode indicators
+            (spaceline-toggle-minor-modes-off)
             ;; ignore warning that cl is deprecated xxx
             (setq byte-compile-warnings '(cl-functions))
             (setq python-indent-guess-indent-offset t)
             (setq python-indent-guess-indent-offset-verbose nil)
             (setq tags-add-tables nil)
+            ;; don't generate file starts with .#
+            (setq create-lockfiles nil)
+            ;; don't load org-mode sub-modules to boot startup
+            (setq org-modules-loaded t)
             (eval-after-load 'dired-quick-sort
               '(setq dired-quick-sort-suppress-setup-warning t))
-            ;; hide the minor mode indicators
-            (spaceline-toggle-minor-modes-off)
             ;; spaceline mode line configurations
             (with-eval-after-load 'spaceline
               (setq spaceline-workspace-number-p nil)
@@ -94,19 +107,16 @@
               (spaceline-toggle-all-the-icons-time-off)
               (spaceline-toggle-all-the-icons-mode-icon-off)
               (spaceline-toggle-all-the-icons-position-off))
-            ;; don't generate file starts with .#
-            (setq create-lockfiles nil)
-            (global-undo-tree-mode 1)
             ;; configure coding system to support Chinese characters
             (set-language-environment 'Chinese-GB)
             (set-default buffer-file-coding-system 'utf-8-unix)
             (set-default-coding-systems 'utf-8-unix)
-            ;; don't load org-mode sub-modules to boot startup
-            (setq org-modules-loaded t)
             (prefer-coding-system 'gb2312)
             (prefer-coding-system 'utf-16)
             (prefer-coding-system 'utf-8-emacs)
-            (prefer-coding-system 'utf-8-unix)))
+            (prefer-coding-system 'utf-8-unix)
+            ;; configure terminal coding system
+            (set-terminal-coding-system 'utf-8-unix)))
 
 (add-hook 'minibuffer-setup-hook (lambda () (deepnetni-mode nil)))
 

@@ -26,7 +26,16 @@
   (defun deepnetni-emacs-env/suppress-undo-tree-load-history
       (undo-tree-load-history &rest args)
     (let ((inhibit-message t))
-      (apply undo-tree-load-history args))))
+      (apply undo-tree-load-history args)))
+
+  (defun deepnetni-emacs-env/format-code ()
+    (interactive)
+    (pcase major-mode
+      ('c-mode (hide-ifdefs)
+               (clang-format-buffer))
+      ('c++-mode (hide-ifdefs)
+                 (clang-format-buffer)))))
+
 
 ;; load json macro configure
 ;(defun deepnetni-emacs-env/load-json-file (fname)
