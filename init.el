@@ -600,6 +600,9 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
     '(("melpa-cn" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
       ("gnu-cn"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
       ("nongnu" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/")))
+
+  (add-hook 'after-init-hook 'global-company-mode)
+  (add-hook 'after-init-hook 'global-flycheck-mode)
 )
 
 
@@ -618,8 +621,6 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
-  (add-hook 'after-init-hook 'global-company-mode)
-  (add-hook 'after-init-hook 'global-flycheck-mode)
   ;(eval-after-load 'company
   ;  '(add-to-list 'company-backends '(company-irony company-yasnippet)))
   (add-hook 'dired-mode-hook 'auto-revert-mode)
@@ -662,16 +663,10 @@ before packages are loaded."
   (global-centered-cursor-mode -1)
   (custom-set-faces '(evil-ex-lazy-highlight ((t (:inherit isearch)))))
 
-  ;(deepni-settings-mode t)
   (remove-hook 'python-mode-hook 'importmagic-mode)
 
-  ;(setq hide-ifdef-initially t)
-  ;(add-hook 'c-mode-common-hook
-  ;          (lambda ()
-  ;            (setq hide-ifdef-shadow t)
-  ;            (hide-ifdef-mode t)
-  ;            (hide-ifdefs)))
   ;(setq-default ispell-program-name "aspell")
+  (deepni-settings-mode t)
 )
 
 ;; Do not write anything past this comment. This is where Emacs will

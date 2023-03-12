@@ -78,6 +78,8 @@
     ;paredit
     projectile
     python
+    spaceline
+    spaceline-all-the-icons
     ;slime
     (vim-powerline :location built-in)
     yard-mode)
@@ -113,10 +115,24 @@ Each entry is either:
 
 (defun deepnetni-emacs-env/init-deepni-settings ()
   (use-package deepni-settings
-  :load-path "~/.spacemacs.d/private/core"
-  :commands (deepni-settings-mode)
-  :config
-  (deepni-settings-mode t)))
+    :load-path "~/.spacemacs.d/private/core"
+    :commands (deepni-settings-mode)
+    :bind (:map deepni-settings-mode-map
+                ("M-h" . #'evil-window-left)
+                ("M-l" . #'evil-window-right)
+                ("M-j" . #'evil-window-down)
+                ("M-k" . #'evil-window-up)
+                ("C-c C-f" . #'deepnetni-emacs-env/format-code))
+    :init
+    (add-hook 'deepni-settings-mode-hook
+              ;(message "### test deepni mode")
+              (lambda ()
+                (deepnetni-emacs-env//goto-line-center
+                 #'(evil-goto-mark
+                    evil-jump-backward
+                    evil-jump-forward
+                    pop-tag-mark))))
+    :config))
 
 (defun deepnetni-emacs-env/post-init-abbrev ()
   (add-hook 'emacs-lisp-mode-hook 'abbrev-mode)
@@ -125,36 +141,28 @@ Each entry is either:
 (defun deepnetni-emacs-env/init-counsel-etags ()
   (use-package counsel-etags
     :delight
-    :ensure t
+    :defer t
+    :after (cc-mode)
     ;:pin melpa-cn
     :bind (:map evil-motion-state-map ("C-]" . counsel-etags-find-tag-at-point))
     :init
-    (add-hook 'prog-mode-hook
-              (lambda ()
-                (add-hook 'after-save-hook
-                          'counsel-etags-virtual-update-tags 'append 'local)))
+    ;(add-hook 'prog-mode-hook
+    ;          (lambda ()
+    ;            (add-hook 'after-save-hook
+    ;                      'counsel-etags-virtual-update-tags 'append 'local)))
+    ;; Setup auto update now
+    (add-hook 'after-save-hook 'counsel-etags-virtual-update-tags 'append 'local)
     ;; auto update tags file
     ;; Don't ask before rereading the TAGS files if they have changed
-    (progn
-      (setq tags-revert-without-query t)
-      ;; Don't warn when TAGS files are large
-      (setq large-file-warning-threshold nil)
-      ;; Setup auto update now
-      (add-hook 'prog-mode-hook
-                (lambda ()
-                  (add-hook 'after-save-hook
-                            'counsel-etags-virtual-update-tags 'append 'local)))
-      (global-set-key (kbd "C-c C-t") 'counsel-etags-list-tag)
-      ; the following method will show c-mode-map as a variable is void error
-      ; (define-key c-mode-map (kbd "C-c C-u") 'counsel-etags-update-tags-force)
-      ; using eval-after-load or add-hook to bind key
-      ; eval-after-load means run the second parameter while load cc-mode.el file
-      (eval-after-load 'cc-mode
-        '(define-key c-mode-map (kbd "C-c C-u") 'counsel-etags-update-tags-force))
-      (advice-add 'counsel-etags-find-tag-at-point :after
-                  (lambda () (evil-scroll-line-to-center (line-number-at-pos))))
-      (advice-add 'counsel-etags-list-tag :after
-                  (lambda () (evil-scroll-line-to-center (line-number-at-pos)))))
+    (setq tags-revert-without-query t)
+    ;; Don't warn when TAGS files are large
+    (setq large-file-warning-threshold nil)
+    (global-set-key (kbd "C-c C-t") 'counsel-etags-list-tag)
+    (define-key c-mode-map (kbd "C-c C-u") 'counsel-etags-update-tags-force)
+    (advice-add 'counsel-etags-find-tag-at-point :after
+                (lambda () (evil-scroll-line-to-center (line-number-at-pos))))
+    (advice-add 'counsel-etags-list-tag :after
+                (lambda () (evil-scroll-line-to-center (line-number-at-pos))))
     :config
     (setq counsel-etags-update-interval 60)
     ;; counsel-etags-ignore-directories does NOT support wildcast
@@ -179,24 +187,20 @@ Each entry is either:
 (defun deepnetni-emacs-env/init-company-irony ()
   (use-package company-irony
     :defer t
-    :after (irony company-irony-c-headers)))
-    ;:init
-    ;;; not work, don't know why
-    ;(spacemacs|add-company-backends :backends
-    ;                                company-irony-c-headers
-    ;                                company-irony
-    ;                                :modes c-mode)))
-    ;(add-to-list 'company-backends '(company-irony-c-headers company-irony))))
+    :after (irony company-irony-c-headers)
+    :init
+    (spacemacs|add-company-backends :backends
+                                    company-irony-c-headers
+                                    company-irony
+                                    :modes c-mode)))
 
 ;; the irony cannot company .h files without the following single package
 (defun deepnetni-emacs-env/init-company-irony-c-headers ()
   (use-package company-irony-c-headers
-    :defer t
     :after irony))
 
 (defun deepnetni-emacs-env/init-irony ()
   (use-package irony
-    :defer t
     :diminish irony-mode
     :init
     (add-hook 'c++-mode-hook 'irony-mode)
@@ -254,7 +258,6 @@ Each entry is either:
   (use-package company-jedi
     :delight
     :defer t
-    :ensure t
     :init
     (add-hook 'python-mode-hook 'jedi:setup)
     (add-hook 'python-mode-hook
@@ -284,7 +287,6 @@ Each entry is either:
 
 ; (defun deepnetni-emacs-env/init-ggtags ()
 ;   (use-package ggtags
-;     :defer t
 ;     :init
 ;     (add-hook 'c-mode-common-hook
 ;               (lambda ()
@@ -299,23 +301,21 @@ Each entry is either:
 (defun deepnetni-emacs-env/init-helm-ag ()
   (use-package helm-ag
     :delight
-    :defer t
     :ensure t
     :init
-    (progn
-      ;(modify-coding-system-alist 'process "ag" '(utf-8 . chinese-gbk-dos))
-      (custom-set-variables
-       ;; enable helm-follow-mode which will disable the helm-resume function
-       ;'(helm-follow-mode-persistent t)
-       '(helm-ag-insert-at-point 'symbol)
-       ;'(helm-ag-base-command "ag --nocolor --nogroup -w")
-       ;'(helm-ag-command-option "--all-text")
-       ;'(helm-ag--ignore-case)
-       '(helm-ag-ignore-buffer-patterns '("\\.txt\\'" "\\.mkd\\'" "TAGS")))
-      (global-set-key (kbd "C-c a") 'helm-ag-project-root)
-      (global-set-key (kbd "C-l") 'helm-do-ag-project-root)
-      (global-set-key (kbd "C-j") 'helm-resume)
-      (add-hook 'c-mode-hook 'helm-mode))
+    ;(modify-coding-system-alist 'process "ag" '(utf-8 . chinese-gbk-dos))
+    (custom-set-variables
+     ;; enable helm-follow-mode which will disable the helm-resume function
+     ;'(helm-follow-mode-persistent t)
+     '(helm-ag-insert-at-point 'symbol)
+     ;'(helm-ag-base-command "ag --nocolor --nogroup -w")
+     ;'(helm-ag-command-option "--all-text")
+     ;'(helm-ag--ignore-case)
+     '(helm-ag-ignore-buffer-patterns '("\\.txt\\'" "\\.mkd\\'" "TAGS")))
+    (global-set-key (kbd "C-c a") 'helm-ag-project-root)
+    (global-set-key (kbd "C-l") 'helm-do-ag-project-root)
+    (global-set-key (kbd "C-j") 'helm-resume)
+    (add-hook 'c-mode-hook 'helm-mode)
     :config
     (advice-add 'helm-ag :after
                 (lambda (&optional basedir query) (evil-scroll-line-to-center (line-number-at-pos))))
@@ -332,7 +332,6 @@ Each entry is either:
 (defun deepnetni-emacs-env/init-imenu-list ()
   (use-package imenu-list
     :delight
-    :defer t
     :init
     (global-set-key (kbd "C-'") #'imenu-list-smart-toggle)
     (setq imenu-list-focus-after-activation t)
@@ -351,15 +350,12 @@ Each entry is either:
 
 (defun deepnetni-emacs-env/init-magit ()
   (use-package magit
-    :delight
-    :defer t
-    ))
+    :delight))
 
 (defun deepnetni-emacs-env/init-org-bullets ()
   (use-package org-bullets
     :delight
     :ensure t
-    :defer t
     :init
     (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))))
 
@@ -385,17 +381,35 @@ Each entry is either:
     (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
     (define-key evil-normal-state-map (kbd "C-p") 'counsel-projectile-find-file)))
 
-(defun deepnetni-emacs-env/pre-init-python ()
+(defun deepnetni-emacs-env/post-init-python ()
   (spacemacs|use-package-add-hook python
     :post-init
-    (add-hook 'python-mode-hook (lambda () (modify-syntax-entry ?_ "w")))))
+    (add-hook 'python-mode-hook (lambda () (modify-syntax-entry ?_ "w")))
+    :post-config
+    (define-key python-mode-map (kbd "M-n") 'spacemacs/python-execute-file)
+    (define-key python-mode-map (kbd "C-j") 'helm-resume)))
 
 (defun deepnetni-emacs-env/post-init-vim-powerline ()
   (setq-default powerline-default-separator 'arrow))
 
+(defun deepnetni-emacs-env/pre-init-spaceline ()
+  (spacemacs|use-package-add-hook spaceline
+    :post-init
+    ;; spaceline mode line configurations
+    (setq spaceline-workspace-number-p nil)
+    (setq spaceline-buffer-size-p nil)))
+
+(defun deepnetni-emacs-env/pre-init-spaceline-all-the-icons ()
+  (spacemacs|use-package-add-hook spaceline-all-the-icons
+    :post-config
+    (spaceline-toggle-all-the-icons-buffer-size-off)
+    (spaceline-toggle-all-the-icons-flycheck-status-on)
+    (spaceline-toggle-all-the-icons-time-on)
+    (spaceline-toggle-all-the-icons-mode-icon-on)
+    (spaceline-toggle-all-the-icons-position-off)))
+
 ;(defun deepnetni-emacs-env/init-slime ()
 ;  (use-package slime
-;    :defer t
 ;    :ensure t
 ;    :init
 ;    (add-hook 'lisp-mode-hook (lambda ()
@@ -407,8 +421,8 @@ Each entry is either:
 
 (defun deepnetni-emacs-env/init-yard-mode ()
     (use-package yard-mode
-      :delight
       :defer t
+      :delight
       :init
       (progn
         (add-hook 'ruby-mode-hook 'yard-mode)
