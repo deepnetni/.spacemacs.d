@@ -1,3 +1,9 @@
+;;; init.el --- Emacs Configure File
+
+;;; Commentary:
+
+;;; Code:
+
 ;; -*- mode: emacs-lisp; lexical-binding: t -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
@@ -679,3 +685,4 @@ before packages are loaded."
 ;(load custom-file)
 
 ;; auto-generate custom variable definitions.
+;;; init.el ends here

@@ -402,9 +402,14 @@ Each entry is either:
 (defun deepnetni-emacs-env/pre-init-spaceline-all-the-icons ()
   (spacemacs|use-package-add-hook spaceline-all-the-icons
     :post-config
+    (setq anzu-cons-mode-line-p nil)
+    (spaceline-all-the-icons--setup-anzu)
+    (spaceline-all-the-icons--setup-neotree)
+    ;; configure segments
     (spaceline-toggle-all-the-icons-buffer-size-off)
     (spaceline-toggle-all-the-icons-flycheck-status-on)
     (spaceline-toggle-all-the-icons-time-on)
+    (spaceline-toggle-all-the-icons-flycheck-status-info-off)
     (spaceline-toggle-all-the-icons-mode-icon-on)
     (spaceline-toggle-all-the-icons-position-off)))
 
