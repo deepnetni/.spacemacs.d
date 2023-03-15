@@ -37,7 +37,20 @@
                  (clang-format-buffer))
       ('python-mode (if blacken-mode
                         (blacken-buffer))
-                    (spacemacs/python-format-buffer)))))
+                    (spacemacs/python-format-buffer))))
+
+  (defun deepnetni-emacs-env/save-layout ()
+    "save current layout to file, equal to command SPC l s"
+    (interactive)
+    (persp-save-state-to-file (concat persp-save-dir "deep-layout")))
+
+  (defun deepnetni-emacs-env/load-layout ()
+    "load last time layout from file, equal to command SPC l L"
+    (interactive)
+    (let ((fname (concat persp-save-dir "deep-layout")))
+      (message "### %s %s" fname (file-exists-p fname))
+      (when (file-exists-p fname)
+        (persp-load-state-from-file fname)))))
 
 
 ;; load json macro configure

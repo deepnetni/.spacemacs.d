@@ -41,9 +41,12 @@
             (define-key inferior-python-mode-map (kbd "M-j") 'evil-window-down)
             (define-key inferior-python-mode-map (kbd "M-k") 'evil-window-up)))
 
+;(add-hook 'kill-emacs-hook #'deepnetni-emacs-env/save-layout)
+
 (add-hook 'deepni-settings-mode-hook
           (lambda ()
             (global-undo-tree-mode t)
+            ;(desktop-save-mode t)
             ;; Automatically synchronize modifications to buffer
             (global-auto-revert-mode t)
             ;; hide the minor mode indicators

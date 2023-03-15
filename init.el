@@ -80,8 +80,8 @@ This function should only modify configuration layer settings."
      ;       c-c++-backend 'company-irony)
      ;; spell-checking
      ;; syntax-checking
-     (spacemacs-layouts :variables layouts-enable-autosave t
-                        layouts-autosave-delay 600)
+     (spacemacs-layouts :variables layouts-enable-autosave t)
+                        ;;layouts-autosave-delay 300)
      ;; version-control
      (treemacs :variables treemacs-use-filewatch-mode t)
      (conda :variables conda-anaconda-home "~/anaconda3")
@@ -379,7 +379,7 @@ It should only modify the values of Spacemacs settings."
 
    ;; Which-key delay in seconds. The which-key buffer is the popup listing
    ;; the commands bound to the current keystroke sequence. (default 0.4)
-   dotspacemacs-which-key-delay 0.5
+   dotspacemacs-which-key-delay 0.4
 
    ;; Which-key frame position. Possible values are `right', `bottom' and
    ;; `right-then-bottom'. right-then-bottom tries to display the frame to the
@@ -426,11 +426,6 @@ It should only modify the values of Spacemacs settings."
    ;; the transparency level of a frame when it's inactive or deselected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
    dotspacemacs-inactive-transparency 90
-
-   ;; A value from the range (0..100), in increasing opacity, which describes the
-   ;; transparency level of a frame background when it's active or selected. Transparency
-   ;; can be toggled through `toggle-background-transparency'. (default 90)
-   dotspacemacs-background-transparency 90
 
    ;; If non-nil show the titles of transient states. (default t)
    dotspacemacs-show-transient-state-title t
@@ -541,9 +536,7 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil - same as frame-title-format)
    dotspacemacs-icon-title-format nil
 
-   ;; Color highlight trailing whitespace in all prog-mode and text-mode derived
-   ;; modes such as c++-mode, python-mode, emacs-lisp, html-mode, rst-mode etc.
-   ;; (default t)
+   ;; Show trailing whitespace (default t)
    dotspacemacs-show-trailing-whitespace t
 
    ;; Delete whitespace while saving buffer. Possible values are `all'
@@ -632,14 +625,13 @@ before packages are loaded."
 
   ;(eval-after-load 'company
   ;  '(add-to-list 'company-backends '(company-irony company-yasnippet)))
-  (add-hook 'dired-mode-hook 'auto-revert-mode)
   (defalias 'which-key-declare-prefixes 'ignore)
   (defalias 'which-key-declare-prefixes-for-mode 'ignore)
   (setq tramp-ssh-controlmaster-options
         "-o ControlMaster=auto -o ControlPath='tramp.%%C' -o ControlPersist=no")
 
   ;; ignore keep current list of tags table also when boot up
-  (setq tags-add-tables nil)
+  ;(setq tags-add-tables nil)
   (setq-default indent-tabs-mode nil)
   (setq-default tab-width 4)
   (defvaralias 'c-basic-offset 'tab-width)
@@ -652,7 +644,7 @@ before packages are loaded."
   (setq make-backup-files nil)
   (setq indent-tabs-mode nil)
   (setq c-default-style "k&r")
-  (setq layouts-enable-autosave t)
+  ;(setq layouts-enable-autosave t)
 
   (setq tags-table-list nil)
   (setq debug-on-error nil)
@@ -666,6 +658,7 @@ before packages are loaded."
   ;; this is the folder where you keep all your git-controlled projects
   ;(global-git-commit-mode t)
 
+  (add-hook 'dired-mode-hook 'auto-revert-mode)
   ;(display-time-mode t)
 
   ;; the cursor always remains in the centere of the file when set
