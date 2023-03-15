@@ -35,7 +35,9 @@
                (clang-format-buffer))
       ('c++-mode (hide-ifdefs)
                  (clang-format-buffer))
-      ('python-mode (spacemacs/python-format-buffer)))))
+      ('python-mode (if blacken-mode
+                        (blacken-buffer))
+                    (spacemacs/python-format-buffer)))))
 
 
 ;; load json macro configure

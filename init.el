@@ -44,7 +44,6 @@ This function should only modify configuration layer settings."
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     javascript
      ivy
      (auto-completion :variables
                       auto-completion-enable-help-tooltip nil         ;; show docstring tips
@@ -86,6 +85,8 @@ This function should only modify configuration layer settings."
      ;; version-control
      (treemacs :variables treemacs-use-filewatch-mode t)
      (conda :variables conda-anaconda-home "~/anaconda3")
+     rust
+     javascript
      deepnetni-emacs-env)
 
 
@@ -609,6 +610,8 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
 
   (add-hook 'after-init-hook 'global-company-mode)
   (add-hook 'after-init-hook 'global-flycheck-mode)
+  ;(add-hook 'after-init-hook 'global-superword-mode)
+  (setq-default flycheck-disabled-checker '(emacs-lisp-checkdoc))
 )
 
 

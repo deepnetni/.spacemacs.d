@@ -32,6 +32,7 @@
 ;(define-key deepni-settings-mode-map (kbd "M-j") #'evil-window-down)
 ;(define-key deepni-settings-mode-map (kbd "M-k") #'evil-window-up)
 ;(define-key deepni-settings-mode-map (kbd "C-c C-f") #'deepnetni-emacs-env/format-code)
+;(global-set-key (kbd "<f5>") 'send-message-to-function)
 
 (define-key global-map (kbd "C-c d") #'hide-ifdef-define)
 (define-key global-map (kbd "C-c u") #'hide-ifdef-undef)
